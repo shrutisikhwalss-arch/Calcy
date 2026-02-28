@@ -1,1 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flower Calculator 🌸</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h1>🌸 Blossom Calculator 🌸</h1>
 
+    <div class="calculator">
+        <input type="text" id="display" disabled>
+
+        <div class="buttons">
+            <button class="flower" onclick="press('7')">🌷</button>
+            <button class="flower" onclick="press('8')">🌼</button>
+            <button class="flower" onclick="press('9')">🌹</button>
+            <button class="flower operator" onclick="press('/')">🍃</button>
+
+            <button class="flower" onclick="press('4')">🌺</button>
+            <button class="flower" onclick="press('5')">🌻</button>
+            <button class="flower" onclick="press('6')">💐</button>
+            <button class="flower operator" onclick="press('*')">🌿</button>
+
+            <button class="flower" onclick="press('1')">🌸</button>
+            <button class="flower" onclick="press('2')">🌼</button>
+            <button class="flower" onclick="press('3')">🌷</button>
+            <button class="flower operator" onclick="press('-')">🍂</button>
+
+            <button class="flower clear" onclick="clearDisplay()">🪻</button>
+            <button class="flower" onclick="press('0')">🌹</button>
+            <button class="flower equal" onclick="calculate()">✨</button>
+            <button class="flower operator" onclick="press('+')">🌱</button>
+        </div>
+    </div>
+</div>
+
+<audio id="clickSound" src="assets/click.mp3"></audio>
+<audio id="bgMusic" src="assets/background.mp3" autoplay loop></audio>
+
+<script src="script.js"></script>
+</body>
+</html>
