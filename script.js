@@ -15,7 +15,7 @@ function clearDisplay() {
 function calculate() {
     clickSound.play();
     try {
-        display.value = eval(display.value);
+        display.value = Function('"use strict";return (' + display.value + ')')();
     } catch {
         display.value = "🌧️ Oops!";
     }
