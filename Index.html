@@ -1,43 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Flower Calculator 🌸</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌸 Sakura Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=DM+Sans:ital,wght@0,300;0,500;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<div class="container">
-    <h1>🌸 Blossom Calculator 🌸</h1>
 
-    <div class="calculator">
-        <input type="text" id="display" disabled>
+  <div class="calc-shell" id="calc">
 
-        <div class="buttons">
-            <button class="flower" onclick="press('7')">🌷</button>
-            <button class="flower" onclick="press('8')">🌼</button>
-            <button class="flower" onclick="press('9')">🌹</button>
-            <button class="flower operator" onclick="press('/')">🍃</button>
-
-            <button class="flower" onclick="press('4')">🌺</button>
-            <button class="flower" onclick="press('5')">🌻</button>
-            <button class="flower" onclick="press('6')">💐</button>
-            <button class="flower operator" onclick="press('*')">🌿</button>
-
-            <button class="flower" onclick="press('1')">🌸</button>
-            <button class="flower" onclick="press('2')">🌼</button>
-            <button class="flower" onclick="press('3')">🌷</button>
-            <button class="flower operator" onclick="press('-')">🍂</button>
-
-            <button class="flower clear" onclick="clearDisplay()">🪻</button>
-            <button class="flower" onclick="press('0')">🌹</button>
-            <button class="flower equal" onclick="calculate()">✨</button>
-            <button class="flower operator" onclick="press('+')">🌱</button>
-        </div>
+    <!-- ── DISPLAY ── -->
+    <div class="display">
+      <div class="d-expr" id="expr">&nbsp;</div>
+      <div class="d-val"  id="val">0</div>
     </div>
-</div>
 
-<audio id="clickSound" src="assets/click.mp3"></audio>
-<audio id="bgMusic" src="assets/background.mp3" autoplay loop></audio>
+    <!-- ── BUTTON GRID ── -->
+    <!--
+      Layout (phone / iOS style):
+      [ CE ]  [ C ]  [ ⌫ ]  [ ÷ ]
+      [  7 ]  [ 8 ]  [ 9 ]  [ × ]
+      [  4 ]  [ 5 ]  [ 6 ]  [ − ]
+      [  1 ]  [ 2 ]  [ 3 ]  [ + ]
+      [ +/−]  [ 0 ]  [ . ]  [ = ]
+    -->
+    <div class="grid" id="grid">
+      <!-- Row 0 – utility -->
+      <button class="btn util" data-v="CE"  data-row="0" data-col="0">CE</button>
+      <button class="btn util" data-v="C"   data-row="0" data-col="1">C</button>
+      <button class="btn util" data-v="⌫"  data-row="0" data-col="2">⌫</button>
+      <button class="btn op"   data-v="÷"   data-row="0" data-col="3">÷</button>
 
-<script src="script.js"></script>
+      <!-- Row 1 -->
+      <button class="btn num"  data-v="7"   data-row="1" data-col="0">7</button>
+      <button class="btn num"  data-v="8"   data-row="1" data-col="1">8</button>
+      <button class="btn num"  data-v="9"   data-row="1" data-col="2">9</button>
+      <button class="btn op"   data-v="×"   data-row="1" data-col="3">×</button>
+
+      <!-- Row 2 -->
+      <button class="btn num"  data-v="4"   data-row="2" data-col="0">4</button>
+      <button class="btn num"  data-v="5"   data-row="2" data-col="1">5</button>
+      <button class="btn num"  data-v="6"   data-row="2" data-col="2">6</button>
+      <button class="btn op"   data-v="−"   data-row="2" data-col="3">−</button>
+
+      <!-- Row 3 -->
+      <button class="btn num"  data-v="1"   data-row="3" data-col="0">1</button>
+      <button class="btn num"  data-v="2"   data-row="3" data-col="1">2</button>
+      <button class="btn num"  data-v="3"   data-row="3" data-col="2">3</button>
+      <button class="btn op"   data-v="+"   data-row="3" data-col="3">+</button>
+
+      <!-- Row 4 – bottom -->
+      <button class="btn util" data-v="+/-" data-row="4" data-col="0">+/−</button>
+      <button class="btn num"  data-v="0"   data-row="4" data-col="1">0</button>
+      <button class="btn util" data-v="."   data-row="4" data-col="2">.</button>
+      <button class="btn eq"   data-v="="   data-row="4" data-col="3">=</button>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
