@@ -1,2 +1,2 @@
 # Calcy
-A Cute Calculator
+A Sakura Calculator
