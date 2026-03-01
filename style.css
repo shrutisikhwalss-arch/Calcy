@@ -7,6 +7,247 @@ body {
     align-items: center;
     height: 100vh;
 }
+/* ══════════════════════════════════════════
+   SAKURA RESIN CALCULATOR — style.css
+   Inspired by the translucent sakura keycap:
+   glassy petals, iridescent edges, golden centre
+══════════════════════════════════════════ */
+
+/* ── Google Fonts loaded in HTML ── */
+
+/* ── RESET ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ── PAGE ── */
+html, body {
+  width: 100%; min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  background: #fdf0f4;
+  font-family: 'Quicksand', sans-serif;
+  overflow-x: hidden;
+}
+
+/* soft warm bokeh glow behind calc */
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 25% 35%, rgba(255,210,225,.5) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 78% 70%, rgba(230,190,240,.4) 0%, transparent 70%);
+}
+
+/* ── CALCULATOR SHELL ── */
+/* Transparent acrylic — like the reference calculator body */
+.calc-shell {
+  position: relative; z-index: 1;
+  width: min(340px, 95vw);
+  background: rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
+  border-radius: clamp(18px, 5vw, 28px);
+  padding: clamp(14px, 4vw, 22px);
+  box-shadow:
+    0 2px 0 rgba(255,255,255,.85) inset,
+    0 -1px 0 rgba(210,160,180,.2) inset,
+    3px 3px 0  rgba(210,170,185,.15),
+    7px 7px 0  rgba(210,170,185,.08),
+    0 24px 56px rgba(200,120,145,.2),
+    0 6px 18px  rgba(200,120,145,.12);
+  animation: shellIn .7s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+@keyframes shellIn {
+  from { transform: scale(.86) translateY(22px); opacity: 0; }
+  to   { transform: scale(1)   translateY(0);    opacity: 1; }
+}
+
+/* top shine edge */
+.calc-shell::before {
+  content: '';
+  position: absolute; top: 0; left: 10%; right: 10%; height: 1.5px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.95), transparent);
+  border-radius: 999px; pointer-events: none;
+}
+
+/* ── DISPLAY ── */
+.display {
+  background: rgba(205, 218, 195, 0.52);
+  border: 1.5px solid rgba(175, 195, 160, .45);
+  border-radius: clamp(10px, 3vw, 16px);
+  padding: clamp(10px, 3vw, 16px) clamp(14px, 4vw, 20px) clamp(8px, 2vw, 12px);
+  margin-bottom: clamp(12px, 3.5vw, 20px);
+  min-height: clamp(78px, 22vw, 102px);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  position: relative; overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0,0,0,.08) inset, 0 1px 0 rgba(255,255,255,.55);
+}
+
+/* LCD scanlines */
+.display::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 3px,
+    rgba(140,160,120,.06) 3px, rgba(140,160,120,.06) 4px
+  );
+}
+
+.d-expr {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(.6rem, 1.9vw, .74rem);
+  color: rgba(80, 95, 65, .55);
+  text-align: right; min-height: 15px;
+  letter-spacing: .3px;
+}
+
+.d-val {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(1.9rem, 8vw, 2.7rem);
+  font-weight: 500;
+  color: #2e3520;
+  text-align: right;
+  letter-spacing: -1px;
+  line-height: 1.1;
+  word-break: break-all;
+  text-shadow: 0 1px 0 rgba(255,255,255,.45);
+  transition: color .2s;
+}
+
+.d-val.shake { animation: shake .4s ease; }
+.d-val.pop   { animation: pop   .16s ease; }
+
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20%     { transform: translateX(-7px); }
+  40%     { transform: translateX(7px); }
+  60%     { transform: translateX(-4px); }
+  80%     { transform: translateX(4px); }
+}
+@keyframes pop {
+  0%,100% { transform: scale(1); }
+  50%     { transform: scale(1.05); }
+}
+
+/* ── BUTTON GRID ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(7px, 2.2vw, 12px);
+}
+
+/* ══════════════════════════════════════════
+   FLOWER BUTTON
+   The SVG is injected by JS.
+   .btn is a square container.
+   .btn-lbl sits on top absolutely, centred.
+══════════════════════════════════════════ */
+.btn {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
+  background: none;
+  border: none;
+  outline: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  /* subtle staggered entry */
+  animation: btnIn .5s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+/* stagger each button */
+.btn:nth-child(1)  { animation-delay: .05s; }
+.btn:nth-child(2)  { animation-delay: .08s; }
+.btn:nth-child(3)  { animation-delay: .11s; }
+.btn:nth-child(4)  { animation-delay: .14s; }
+.btn:nth-child(5)  { animation-delay: .17s; }
+.btn:nth-child(6)  { animation-delay: .20s; }
+.btn:nth-child(7)  { animation-delay: .23s; }
+.btn:nth-child(8)  { animation-delay: .26s; }
+.btn:nth-child(9)  { animation-delay: .29s; }
+.btn:nth-child(10) { animation-delay: .32s; }
+.btn:nth-child(11) { animation-delay: .35s; }
+.btn:nth-child(12) { animation-delay: .38s; }
+.btn:nth-child(13) { animation-delay: .41s; }
+.btn:nth-child(14) { animation-delay: .44s; }
+.btn:nth-child(15) { animation-delay: .47s; }
+.btn:nth-child(16) { animation-delay: .50s; }
+.btn:nth-child(17) { animation-delay: .53s; }
+.btn:nth-child(18) { animation-delay: .56s; }
+.btn:nth-child(19) { animation-delay: .59s; }
+.btn:nth-child(20) { animation-delay: .62s; }
+
+@keyframes btnIn {
+  from { transform: scale(.5) translateY(14px); opacity: 0; }
+  to   { transform: scale(1)  translateY(0);    opacity: 1; }
+}
+
+/* hover — float up + slight tilt, petals brighten */
+.btn:hover  { transform: translateY(-4px) scale(1.07) rotate(4deg); filter: brightness(1.07) saturate(1.15); transition: transform .15s cubic-bezier(.34,1.56,.64,1), filter .15s; }
+/* press — push down */
+.btn:active { transform: translateY(2px) scale(.95) rotate(-2deg); filter: brightness(.94); transition: transform .08s, filter .08s; }
+
+/* SVG flower fills the square */
+.btn svg.flower-svg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* ── LABEL (number/symbol on top) ── */
+.btn-lbl {
+  position: absolute; inset: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  /* number size — large and clear */
+  font-size: clamp(.88rem, 3.2vw, 1.15rem);
+  /* dark plum text — pops on the light pink petals */
+  color: #5a1f3a;
+  text-shadow:
+    0  1px 2px rgba(255,255,255,.7),
+    0 -1px 1px rgba(200,100,130,.25);
+  pointer-events: none;
+  letter-spacing: .2px;
+  line-height: 1;
+}
+
+/* operators slightly larger */
+.btn.op  .btn-lbl { font-size: clamp(.95rem, 3.5vw, 1.25rem); color: #4a1050; }
+/* = button white bold */
+.btn.eq  .btn-lbl { font-size: clamp(1.1rem, 4vw, 1.5rem); color: #fff; font-weight: 700; text-shadow: 0 1px 6px rgba(150,40,80,.6); }
+/* CE/C/⌫ smaller */
+.btn.util .btn-lbl { font-size: clamp(.72rem, 2.5vw, .92rem); color: #5a1f3a; }
+
+/* ── RIPPLE ── */
+.rip {
+  position: absolute; border-radius: 50%;
+  background: rgba(255, 210, 230, .55);
+  transform: scale(0);
+  animation: ripple .55s ease-out;
+  pointer-events: none; z-index: 20;
+}
+@keyframes ripple { to { transform: scale(6); opacity: 0; } }
+
+/* ── BURST PARTICLE ── */
+.burst {
+  position: fixed; pointer-events: none; z-index: 600;
+  transform: translate(-50%, -50%);
+  animation: burstAnim .7s ease-out forwards;
+  font-size: clamp(.8rem, 2.5vw, 1.1rem);
+}
+@keyframes burstAnim {
+  0%   { transform: translate(-50%,-50%) scale(0) rotate(0deg);            opacity: 1; }
+  60%  { transform: translate(var(--bx),var(--by)) scale(1.4) rotate(var(--br)); opacity: 1; }
+  100% { transform: translate(calc(var(--bx)*1.7),calc(var(--by)*1.7)) scale(.2) rotate(calc(var(--br)*2)); opacity: 0; }
+}
+
+/* ── SCROLLBAR HIDE ── */
+::-webkit-scrollbar { display: none; }
+
+/* keyboard press visual flash */
+.btn.key-flash { transform: translateY(2px) scale(.95) rotate(-2deg); filter: brightness(.9); transition: transform .08s, filter .08s; }
+
 
 .container {
     text-align: center;
